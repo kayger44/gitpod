@@ -79,7 +79,7 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
 
     componentWillMount() {
         this.queryInitialState();
-        this.startWorkspace(this.props.workspaceId, undefined, this.forceDefault);
+        this.startWorkspace(this.props.workspaceId);
     }
 
     protected async queryInitialState() {
@@ -359,7 +359,7 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
                 <Button className='button' variant='outlined' color='secondary' onClick={() => {
                   if (this.workspace && this.state && this.state.workspaceInstance) {
                     this.forceDefault = true;
-                    this.startWorkspace(this.state.workspaceInstance.workspaceId, true)
+                    this.startWorkspace(this.state.workspaceInstance.workspaceId, true, true)
                   }
                 }}>Open Default Workspace</Button>
             </div>;
