@@ -1022,6 +1022,7 @@ export class GitpodServerImpl<Client extends GitpodClient, Server extends Gitpod
             const imgbuilder = await this.imageBuilderClientProvider.getDefault();
             const req = new LogsRequest();
             req.setCensored(true);
+            console.log(`workspace.imageNameResolved: ${workspace.imageNameResolved}`)
             req.setBuildRef(workspace.imageNameResolved);
 
             let lineCount = 0;
