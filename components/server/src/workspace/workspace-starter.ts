@@ -63,7 +63,9 @@ export class WorkspaceStarter {
             }
 
             if (forceDefault) {
-                // workspace.imageSource.baseImageResolved = "gitpod/workspace-full";
+                workspace.imageSource = <WorkspaceImageSourceReference>{
+                  baseImageResolved: "gitpod/workspace-full"
+                }
                 await this.workspaceDb.trace({ span }).store(workspace);
             }
 
