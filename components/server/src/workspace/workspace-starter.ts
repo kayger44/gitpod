@@ -66,7 +66,6 @@ export class WorkspaceStarter {
                 workspace.imageSource = <WorkspaceImageSourceReference>{
                   baseImageResolved: "gitpod/workspace-full"
                 }
-                await this.workspaceDb.trace({ span }).store(workspace);
             }
 
             // create and store instance
