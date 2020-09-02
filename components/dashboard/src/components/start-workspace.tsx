@@ -358,8 +358,8 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
                   if (this.workspace && this.state && this.state.workspaceInstance) {
                     this.props.service.server.getWorkspace(this.state.workspaceInstance.workspaceId).then(ws => {
                         if (ws.latestInstance) {
-                            this.startWorkspace(ws.latestInstance.workspaceId, true, true);
-                            this.onInstanceUpdate(ws.latestInstance);
+                          this.onInstanceUpdate(ws.latestInstance);
+                          this.startWorkspace(ws.latestInstance.workspaceId, true, true);
                         }
                     });
                   }
