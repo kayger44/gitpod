@@ -44,7 +44,7 @@ export class WorkspaceStarter {
     @inject(TheiaPluginService) protected readonly theiaService: TheiaPluginService;
     @inject(OneTimeSecretServer) protected readonly otsServer: OneTimeSecretServer;
 
-    public async startWorkspace(ctx: TraceContext, workspace: Workspace, user: User, userEnvVars?: UserEnvVar[], rethrow?: boolean): Promise<StartWorkspaceResult> {
+    public async startWorkspace(ctx: TraceContext, workspace: Workspace, user: User, userEnvVars?: UserEnvVar[], rethrow?: boolean, forceDefault: boolean = false): Promise<StartWorkspaceResult> {
         const span = TraceContext.startSpan("WorkspaceStarter.startWorkspace", ctx);
 
         try {
@@ -59,6 +59,11 @@ export class WorkspaceStarter {
                 log.debug('Found workspace without imageSource, generated one', { imageSource });
 
                 workspace.imageSource = imageSource;
+                await this.workspaceDb.trace({ span }).store(workspace);
+            }
+
+            if (forceDefault) {
+                // workspace.imageSource.baseImageResolved = "gitpod/workspace-full";
                 await this.workspaceDb.trace({ span }).store(workspace);
             }
 

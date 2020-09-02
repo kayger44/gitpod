@@ -107,7 +107,7 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
         this.startWorkspace(nextProps.workspaceId);
     }
 
-    protected startWorkspace(workspaceId: string | undefined, restart: boolean = false) {
+    protected startWorkspace(workspaceId: string | undefined, restart: boolean = false, forceDefault: boolean = false) {
         if (!workspaceId) {
             return;
         }
@@ -120,7 +120,7 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
         }
 
         const defaultErrMessage = `Error while starting workspace ${workspaceId}`;
-        this.props.service.server.startWorkspace(workspaceId)
+        this.props.service.server.startWorkspace(workspaceId, forceDefault)
             .then(workspaceStartedResult => {
                 if (!workspaceStartedResult) {
                     this.setErrorState(defaultErrMessage);
@@ -358,7 +358,7 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
                   if (this.workspace && this.state && this.state.workspaceInstance) {
                     this.props.service.server.getWorkspace(this.state.workspaceInstance.workspaceId).then(ws => {
                         if (ws.latestInstance) {
-                            this.startWorkspace(ws.latestInstance.workspaceId, true);
+                            this.startWorkspace(ws.latestInstance.workspaceId, true, true);
                             this.onInstanceUpdate(ws.latestInstance);
                         }
                     });
