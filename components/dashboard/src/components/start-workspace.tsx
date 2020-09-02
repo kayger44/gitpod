@@ -53,6 +53,7 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
     private isPrebuilt: boolean | undefined;
     private workspaceInfoReceived: boolean = false;
     private userHasAlreadyCreatedWorkspaces?: boolean;
+    private forceDefault: boolean = false;
     private workspace: Workspace | undefined;
     private branding: Branding | undefined;
 
@@ -78,7 +79,7 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
 
     componentWillMount() {
         this.queryInitialState();
-        this.startWorkspace(this.props.workspaceId);
+        this.startWorkspace(this.props.workspaceId, undefined, this.forceDefault);
     }
 
     protected async queryInitialState() {
@@ -121,7 +122,7 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
         }
 
         const defaultErrMessage = `Error while starting workspace ${workspaceId}`;
-        this.props.service.server.startWorkspace(workspaceId, forceDefault = forceDefault)
+        this.props.service.server.startWorkspace(workspaceId, forceDefault)
             .then((workspaceStartedResult: { instanceID: string; workspaceURL: string; }) => {
                 if (!workspaceStartedResult) {
                     this.setErrorState(defaultErrMessage);
@@ -323,7 +324,7 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
 
         const startErrorRenderer = this.props.startErrorRenderer;
         if (startErrorRenderer && errorCode) {
-            const rendered = startErrorRenderer(errorCode, this.props.service, () => this.startWorkspace(this.props.workspaceId, true));
+            const rendered = startErrorRenderer(errorCode, this.props.service, () => this.startWorkspace(this.props.workspaceId, true, false));
             if (rendered) {
                 return rendered;
             }
@@ -357,7 +358,8 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
                 <Button className='button' variant='outlined' color='secondary' onClick={() => this.redirectToDashboard()}>Go to Workspaces</Button>
                 <Button className='button' variant='outlined' color='secondary' onClick={() => {
                   if (this.workspace && this.state && this.state.workspaceInstance) {
-                    this.startWorkspace(this.state.workspaceInstance.workspaceId, true, true);
+                    this.forceDefault = true;
+                    this.startWorkspace(this.state.workspaceInstance.workspaceId, true)
                   }
                 }}>Open Default Workspace</Button>
             </div>;
