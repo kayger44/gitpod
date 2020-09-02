@@ -53,7 +53,6 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
     private isPrebuilt: boolean | undefined;
     private workspaceInfoReceived: boolean = false;
     private userHasAlreadyCreatedWorkspaces?: boolean;
-    private forceDefault: boolean = false;
     private workspace: Workspace | undefined;
     private branding: Branding | undefined;
 
@@ -109,7 +108,6 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
     }
 
     protected startWorkspace(workspaceId: string | undefined, restart: boolean = false, forceDefault: boolean = false) {
-        console.log(forceDefault)
         if (!workspaceId) {
             return;
         }
