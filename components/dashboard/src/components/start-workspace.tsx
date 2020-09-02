@@ -108,6 +108,7 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
     }
 
     protected startWorkspace(workspaceId: string | undefined, restart: boolean = false, forceDefault: boolean = false) {
+        console.log(forceDefault)
         if (!workspaceId) {
             return;
         }
@@ -120,7 +121,7 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
         }
 
         const defaultErrMessage = `Error while starting workspace ${workspaceId}`;
-        this.props.service.server.startWorkspace(workspaceId, forceDefault)
+        this.props.service.server.startWorkspace(workspaceId, forceDefault = forceDefault)
             .then((workspaceStartedResult: { instanceID: string; workspaceURL: string; }) => {
                 if (!workspaceStartedResult) {
                     this.setErrorState(defaultErrMessage);
