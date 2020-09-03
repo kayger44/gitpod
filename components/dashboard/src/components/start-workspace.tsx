@@ -108,6 +108,7 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
     }
 
     protected startWorkspace(workspaceId: string | undefined, restart: boolean = false, forceDefault: boolean = false) {
+        log.debug(`phase 1 value: ${forceDefault}`)
         if (!workspaceId) {
             return;
         }

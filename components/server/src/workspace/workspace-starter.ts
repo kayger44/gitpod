@@ -48,6 +48,7 @@ export class WorkspaceStarter {
         const span = TraceContext.startSpan("WorkspaceStarter.startWorkspace", ctx);
         log.info(`The resolved image name is ${JSON.stringify(workspace.imageSource)}`)
         console.log(`The resolved image name is ${JSON.stringify(workspace.imageSource)}`)
+        log.debug(`phase 3 value: ${forceDefault}`)
 
         try {
             // Some workspaces do not have an image source.
@@ -79,7 +80,7 @@ export class WorkspaceStarter {
                   baseImageResolved: res.getRef()
                 }   
                 log.info(`The new resolved image name is ${JSON.stringify(workspace.imageSource)}`)
-              }
+            }
 
             // create and store instance
             let instance = await this.workspaceDb.trace({ span }).storeInstance(await this.newInstance(workspace, user));

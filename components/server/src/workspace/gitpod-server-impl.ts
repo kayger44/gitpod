@@ -325,9 +325,10 @@ export class GitpodServerImpl<Client extends GitpodClient, Server extends Gitpod
         }
     }
 
-    public async startWorkspace(workspaceId: string, forceDefault: boolean = false): Promise<StartWorkspaceResult> {
+    public async startWorkspace(workspaceId: string, forceDefault?: boolean): Promise<StartWorkspaceResult> {
         const span = opentracing.globalTracer().startSpan("startWorkspace");
         span.setTag("workspaceId", workspaceId);
+        log.debug(`phase 2 value: ${forceDefault}`)
 
         try {
             const user = this.checkAndBlockUser();
