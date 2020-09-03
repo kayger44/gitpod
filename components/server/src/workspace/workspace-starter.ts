@@ -21,7 +21,7 @@ import { StartWorkspaceSpec, WorkspaceFeatureFlag } from "@gitpod/ws-manager/lib
 import { WorkspaceInitializer, SnapshotInitializer, PrebuildInitializer, GitInitializer, CloneTargetMode, GitConfig, GitAuthMethod } from "@gitpod/content-service/lib";
 import { AuthorizationService } from "../user/authorization-service";
 import { Permission } from "@gitpod/gitpod-protocol/lib/permission";
-import { ImageBuilderClientProvider, BuildSource, BuildSourceDockerfile, BuildSourceReference, BuildRequest, BuildRegistryAuth, BuildRegistryAuthTotal, BuildStatus, ResolveWorkspaceImageRequest, BuildRegistryAuthSelective, BuildResponse } from "@gitpod/image-builder/lib";
+import { ImageBuilderClientProvider, BuildSource, BuildSourceDockerfile, BuildSourceReference, BuildRequest, BuildRegistryAuth, BuildRegistryAuthTotal, BuildStatus, ResolveWorkspaceImageRequest, BuildRegistryAuthSelective, BuildResponse, ResolveBaseImageRequest } from "@gitpod/image-builder/lib";
 import { ImageSourceProvider } from "./image-source-provider";
 import { TokenProvider } from "../user/token-provider";
 import { UserService } from "../user/user-service";
@@ -63,8 +63,18 @@ export class WorkspaceStarter {
             }
 
             if (forceDefault) {
+                const req = new ResolveBaseImageRequest();
+                req.setRef("gitpod/workspace-full");
+                const allowAll = new BuildRegistryAuthTotal();
+                allowAll.setAllowAll(true);
+                const auth = new BuildRegistryAuth();
+                auth.setTotal(allowAll);
+                req.setAuth(auth);
+
+                const client = this.imagebuilderClientProvider.getDefault();
+                const res = await client.resolveBaseImage({span}, req);
                 workspace.imageSource = <WorkspaceImageSourceReference>{
-                  baseImageResolved: "docker.io/gitpod/workspace-full"
+                  baseImageResolved: res.getRef();
                 }
             }
 
