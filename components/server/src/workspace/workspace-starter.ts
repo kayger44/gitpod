@@ -64,7 +64,7 @@ export class WorkspaceStarter {
 
             if (forceDefault) {
                 workspace.imageSource = <WorkspaceImageSourceReference>{
-                  baseImageResolved: "gitpod/workspace-full"
+                  baseImageResolved: "docker.io/gitpod/workspace-full"
                 }
             }
 
