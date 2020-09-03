@@ -74,7 +74,7 @@ export class WorkspaceStarter {
                 const client = this.imagebuilderClientProvider.getDefault();
                 const res = await client.resolveBaseImage({span}, req);
                 workspace.imageSource = <WorkspaceImageSourceReference>{
-                  baseImageResolved: res.getRef();
+                  baseImageResolved: res.getRef()
                 }
             }
 
