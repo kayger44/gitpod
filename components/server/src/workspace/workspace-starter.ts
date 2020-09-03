@@ -44,9 +44,10 @@ export class WorkspaceStarter {
     @inject(TheiaPluginService) protected readonly theiaService: TheiaPluginService;
     @inject(OneTimeSecretServer) protected readonly otsServer: OneTimeSecretServer;
 
-    public async startWorkspace(ctx: TraceContext, workspace: Workspace, user: User, userEnvVars?: UserEnvVar[], rethrow?: boolean, forceDefault: boolean = true): Promise<StartWorkspaceResult> {
+    public async startWorkspace(ctx: TraceContext, workspace: Workspace, user: User, userEnvVars?: UserEnvVar[], rethrow?: boolean, forceDefault: boolean = false): Promise<StartWorkspaceResult> {
         const span = TraceContext.startSpan("WorkspaceStarter.startWorkspace", ctx);
-        log.info(`The new resolved image name is ${JSON.stringify(workspace.imageSource)}`)
+        log.info(`The resolved image name is ${JSON.stringify(workspace.imageSource)}`)
+        console.log(`The resolved image name is ${JSON.stringify(workspace.imageSource)}`)
 
         try {
             // Some workspaces do not have an image source.
